@@ -3,7 +3,8 @@ from langchain_groq import ChatGroq
 import os
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_community.embeddings import HuggingFaceEmbeddings
+#from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.embeddings import FastEmbedEmbeddings
 from langchain_community.vectorstores import Chroma
 
 from langchain_core.prompts import ChatPromptTemplate
@@ -32,9 +33,11 @@ def build_rag_chain(pdf_path: str):
     splitter = RecursiveCharacterTextSplitter(chunk_size=1500, chunk_overlap=250)
     chunks = splitter.split_documents(docs)
 
-    embeddings = HuggingFaceEmbeddings(
-        model_name="sentence-transformers/all-MiniLM-L6-v2"
-    )
+    #embeddings = HuggingFaceEmbeddings(
+    #    model_name="sentence-transformers/all-MiniLM-L6-v2"
+    #)
+
+    embeddings = FastEmbedEmbeddings()
 
     db = Chroma.from_documents(chunks, embedding=embeddings)
 
