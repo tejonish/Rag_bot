@@ -1,6 +1,7 @@
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_groq import ChatGroq
 import os
+import shutil
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 #from langchain_community.embeddings import HuggingFaceEmbeddings
@@ -12,7 +13,7 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains.retrieval import create_retrieval_chain
 
 
-def extract_full_text(pdf_path: str) -> str:
+def extract_full_text(pdf_path: str) -> str:  
     loader = PyPDFLoader(pdf_path)
     docs = loader.load()
     return "\n".join([d.page_content for d in docs])
@@ -27,6 +28,10 @@ def get_llm():
 
 
 def build_rag_chain(pdf_path: str):
+  # CLEAN old Chroma DB (important for Streamlit Cloud)
+    if os.path.exists("./chroma_db"):
+        shutil.rmtree("./chroma_db")
+
     loader = PyPDFLoader(pdf_path)
     docs = loader.load()
 
@@ -39,7 +44,12 @@ def build_rag_chain(pdf_path: str):
 
     embeddings = FastEmbedEmbeddings()
 
-    db = Chroma.from_documents(chunks, embedding=embeddings)
+    #IMPORTANT: persist_directory fixes tenant error
+    db = Chroma.from_documents(
+    documents=chunks,
+    embedding=embeddings,
+    persist_directory="./chroma_db"
+)
 
     retriever = db.as_retriever(
         search_type="mmr",
