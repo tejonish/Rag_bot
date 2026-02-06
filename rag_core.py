@@ -2,6 +2,8 @@ from langchain_community.document_loaders import PyPDFLoader
 from langchain_groq import ChatGroq
 import os
 import shutil
+from chromadb.config import Settings
+import chromadb
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 #from langchain_community.embeddings import HuggingFaceEmbeddings
@@ -45,11 +47,20 @@ def build_rag_chain(pdf_path: str):
     embeddings = FastEmbedEmbeddings()
 
     #IMPORTANT: persist_directory fixes tenant error
+    client = chromadb.Client(
+        Settings(
+            persist_directory="./chroma_db",
+            anonymized_telemetry=False,
+            allow_reset=True
+        )
+    )
+
     db = Chroma.from_documents(
-    documents=chunks,
-    embedding=embeddings,
-    persist_directory="./chroma_db"
-)
+        documents=chunks,
+        embedding=embeddings,
+        client=client,
+        collection_name="resume_rag"
+    )
 
     retriever = db.as_retriever(
         search_type="mmr",
