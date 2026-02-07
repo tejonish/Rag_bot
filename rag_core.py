@@ -6,7 +6,7 @@ import os
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 #from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.embeddings import FastEmbedEmbeddings
-from langchain_community.vectorstores import Chroma
+from langchain_community.vectorstores import FAISS
 
 from langchain_core.prompts import ChatPromptTemplate
 from langchain.chains.combine_documents import create_stuff_documents_chain
@@ -41,7 +41,7 @@ def build_rag_chain(pdf_path: str):
 
     embeddings = FastEmbedEmbeddings()
 
-    db = Chroma.from_documents(
+    db = FAISS.from_documents(
         documents=chunks,
         embedding=embeddings
     )
