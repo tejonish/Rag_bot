@@ -48,3 +48,5 @@ streamlit run app.py
 [![Streamlit App](https://img.shields.io/badge/Live%20Demo-Streamlit-red?logo=streamlit)](https://tejonish-rag-bot.streamlit.app)
 
 > First load may take ~30 seconds due to free-tier cold start.
+
+![CI](https://github.com/tejonish/Rag_bot/actions/workflows/ci.yml/badge.svg)
