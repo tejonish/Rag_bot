@@ -47,4 +47,4 @@ streamlit run app.py
 
 [![Streamlit App](https://img.shields.io/badge/Live%20Demo-Streamlit-red?logo=streamlit)](https://tejonish-rag-bot.streamlit.app)
 
-A cloud-deployed Retrieval-Augmented Generation (RAG) application that allows users to upload a PDF resume and ask context-aware questions.
+> First load may take ~30 seconds due to free-tier cold start.
