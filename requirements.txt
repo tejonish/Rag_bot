@@ -15,3 +15,5 @@ langchain-groq==0.1.9
 sentence-transformers
 torch
 transformers
+
+python-dotenv
