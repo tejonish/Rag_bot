@@ -15,6 +15,7 @@ from modules.report import generate_pdf_report
 
 st.set_page_config(page_title="AI Hiring Copilot", page_icon="🤖")
 st.title("🚀 AI Hiring Copilot")
+st.info("💻 Best viewed on laptop/desktop. Mobile upload may be unstable.")
 
 
 def reset_vectordb():
