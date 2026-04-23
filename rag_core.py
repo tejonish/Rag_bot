@@ -12,6 +12,8 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains.retrieval import create_retrieval_chain
 
+from dotenv import load_dotenv
+load_dotenv()
 
 def extract_full_text(pdf_path: str) -> str:  
     loader = PyPDFLoader(pdf_path)
