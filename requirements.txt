@@ -17,3 +17,4 @@ torch
 transformers
 
 python-dotenv
+reportlab
