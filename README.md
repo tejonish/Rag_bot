@@ -98,8 +98,6 @@ Rag_bot/
 │   ├── report.py
 │   ├── resume.py
 │   ├── verification.py
-│   ├── resume.py
-│   ├── report.py
 │
 └── README.md
 ```
