@@ -18,3 +18,5 @@ transformers
 
 python-dotenv
 reportlab
+
+streamlit-mic-recorder
