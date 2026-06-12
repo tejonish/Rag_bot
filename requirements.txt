@@ -16,6 +16,5 @@ transformers
 
 python-dotenv
 reportlab
-
 streamlit-mic-recorder
 faster-whisper
