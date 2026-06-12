@@ -1,10 +1,9 @@
 # modules/jd_analysis.py
 
-from rag_core import get_llm
+from langgraph_version.llm import get_llm
 from sentence_transformers import SentenceTransformer
 import numpy as np
 import json
-
 
 # 🧠 LOAD MODEL (once)
 
@@ -32,6 +31,8 @@ def extract_skills(text):
         ✔ tools (Python, Git, SQL)
         ✔ techniques (machine learning, deep learning)
         ✔ technologies (LLM, APIs, Docker)
+        ✔ AI frameworks and concepts (RAG, LangGraph, LangChain, FAISS)
+
 
       Return comma-separated list ONLY.
 
@@ -134,15 +135,25 @@ def classify_jd_skills(jd_text):
     res = llm.invoke(prompt).content.strip()
     res = res.replace("```json", "").replace("```", "").strip()
 
+    
+    # try:
+    #     data = json.loads(res)
+    # except:
+    #     return {"critical": set(), "important": set(), "nice": set()}
+
+    import re
+
     try:
-        data = json.loads(res)
-    except:
+        json_text = re.search(r"\{.*\}", res, re.DOTALL).group()
+        data = json.loads(json_text)
+    except Exception as e:
+        print("JSON ERROR:", e)
         return {"critical": set(), "important": set(), "nice": set()}
 
     return {
-        "critical": set(data.get("critical", [])),
-        "important": set(data.get("important", [])),
-        "nice": set(data.get("nice", [])),
+        "critical": {normalize(x) for x in data.get("critical", [])},
+        "important": {normalize(x) for x in data.get("important", [])},
+        "nice": {normalize(x) for x in data.get("nice", [])},
     }
 
 

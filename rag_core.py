@@ -9,8 +9,8 @@ from langchain_community.embeddings import FastEmbedEmbeddings
 from langchain_community.vectorstores import FAISS
 
 from langchain_core.prompts import ChatPromptTemplate
-from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain.chains.retrieval import create_retrieval_chain
+# from langchain.chains.combine_documents import create_stuff_documents_chain
+# from langchain.chains.retrieval import create_retrieval_chain
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -30,52 +30,53 @@ def get_llm():
 
 
 def build_rag_chain(pdf_path: str):
+    pass
   
-    loader = PyPDFLoader(pdf_path)
-    docs = loader.load()
+#     loader = PyPDFLoader(pdf_path)
+#     docs = loader.load()
 
-    splitter = RecursiveCharacterTextSplitter(chunk_size=1500, chunk_overlap=250)
-    chunks = splitter.split_documents(docs)
+#     splitter = RecursiveCharacterTextSplitter(chunk_size=1500, chunk_overlap=250)
+#     chunks = splitter.split_documents(docs)
 
-    #embeddings = HuggingFaceEmbeddings(
-    #    model_name="sentence-transformers/all-MiniLM-L6-v2"
-    #)
+#     #embeddings = HuggingFaceEmbeddings(
+#     #    model_name="sentence-transformers/all-MiniLM-L6-v2"
+#     #)
 
-    embeddings = FastEmbedEmbeddings()
+#     embeddings = FastEmbedEmbeddings()
 
-    db = FAISS.from_documents(
-        documents=chunks,
-        embedding=embeddings
-    )
+#     db = FAISS.from_documents(
+#         documents=chunks,
+#         embedding=embeddings
+#     )
 
-    retriever = db.as_retriever(
-        search_type="mmr",
-        search_kwargs={"k": 8, "fetch_k": 30, "lambda_mult": 0.7}
-    )
+#     retriever = db.as_retriever(
+#         search_type="mmr",
+#         search_kwargs={"k": 8, "fetch_k": 30, "lambda_mult": 0.7}
+#     )
 
-    llm = get_llm()
+#     llm = get_llm()
 
-    prompt = ChatPromptTemplate.from_template(
-        """You are a helpful assistant.
-Answer ONLY using the context from the resume.
-If not present in context, say: "Not found in the resume."
+#     prompt = ChatPromptTemplate.from_template(
+#         """You are a helpful assistant.
+# Answer ONLY using the context from the resume.
+# If not present in context, say: "Not found in the resume."
 
-Important:
-- If multiple internships exist in context, include ALL.
+# Important:
+# - If multiple internships exist in context, include ALL.
 
-Context:
-{context}
+# Context:
+# {context}
 
-Question:
-{input}
+# Question:
+# {input}
 
-Answer:"""
-    )
+# Answer:"""
+#     )
 
-    combine_docs_chain = create_stuff_documents_chain(llm, prompt)
-    rag_chain = create_retrieval_chain(retriever, combine_docs_chain)
+#     combine_docs_chain = create_stuff_documents_chain(llm, prompt)
+#     rag_chain = create_retrieval_chain(retriever, combine_docs_chain)
 
-    return rag_chain
+#     return rag_chain
 
 
 def summarize_resume(pdf_path: str) -> str:

@@ -24,7 +24,8 @@
 
 #     return result
 
-from rag_core import get_llm
+# from rag_core import get_llm
+from langgraph_version.llm import get_llm
 from agents.extractor import run_extractor
 from agents.matcher_agent import run_matcher
 from agents.scorer_agent import run_scorer
