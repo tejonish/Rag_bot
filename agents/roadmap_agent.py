@@ -1,14 +1,15 @@
-from rag_core import get_llm
+# from rag_core import get_llm
+from langgraph_version.llm import get_llm
 
 
-def generate_roadmap(missing_skills, known_skills,partial_skills):
+def generate_roadmap(missing_skills, known_skills, partial_skills):
     if not missing_skills:
         return "No major skill gaps identified."
 
     # convert set/list → clean string
     missing_skills = ", ".join(sorted(missing_skills))
     known_skills = ", ".join(sorted(known_skills))
-    partial_skills=",".join(sorted(partial_skills))
+    partial_skills = ",".join(sorted(partial_skills))
 
     llm = get_llm()
 
@@ -36,6 +37,11 @@ def generate_roadmap(missing_skills, known_skills,partial_skills):
 
         Skills:
         {missing_skills}
+        
+        Important:
+        - RAG means Retrieval-Augmented Generation
+        - LangGraph is an AI agent orchestration framework
+        - Do not expand acronyms incorrectly
 
         Rules:
         
