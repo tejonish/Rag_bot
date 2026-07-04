@@ -1,6 +1,6 @@
 # 🚀 AI Hiring Copilot
 
-An **agentic, multi-agent, multi-model AI system** that evaluates resume–job fit and generates personalized learning roadmaps.
+A **LangGraph-powered, agentic, multi-agent AI Hiring Copilot** that evaluates resume–job fit using stateful workflows, conditional routing, semantic matching, and personalized learning roadmaps.
 
 🔗 **Live Demo:** https://tejonish-rag-bot.streamlit.app
 
@@ -23,6 +23,34 @@ An **agentic, multi-agent, multi-model AI system** that evaluates resume–job f
 ---
 
 ## 🧠 Architecture
+
+### 🔹 LangGraph Workflow
+
+This application uses **LangGraph's StateGraph** to orchestrate a stateful multi-agent workflow with conditional routing based on the candidate's job-fit score.
+
+```text
+Resume + Job Description
+          │
+          ▼
+     Extractor Node
+          │
+          ▼
+      Matcher Node
+          │
+          ▼
+      Scorer Node
+          │
+          ▼
+     Score >= 80?
+      /         \
+    Yes         No
+     │           │
+     ▼           ▼
+ Formatter   Roadmap Node
+      \         /
+       ▼       ▼
+    Final Report
+```
 
 ### 🔹 Agentic Pipeline
 
@@ -58,6 +86,7 @@ An **agentic, multi-agent, multi-model AI system** that evaluates resume–job f
 
 **LLM Orchestration**
 
+* LangGraph (StateGraph)
 * LangChain
 
 **PDF Processing**
@@ -79,17 +108,34 @@ Rag_bot/
 │── app.py
 │── rag_core.py
 │── requirements.txt
+│── Dockerfile
+│── README.md
 │
-├── agents/
+├── agents/                     # AI agents
 │   ├── controller.py
 │   ├── extractor.py
 │   ├── matcher_agent.py
 │   ├── scorer_agent.py
 │   ├── roadmap_agent.py
 │   ├── formatter_agent.py
-│   ├── embedding_model.py
+│   └── embedding_model.py
 │
-├── modules/
+├── langgraph_version/          # LangGraph workflow implementation
+│   ├── graph_state.py
+│   ├── hiring_graph.py
+│   ├── llm.py
+│   ├── routers.py
+│   ├── test_graph.py
+│   ├── test_imports.py
+│   │
+│   └── nodes/
+│       ├── extractor_node.py
+│       ├── matcher_node.py
+│       ├── scorer_node.py
+│       ├── roadmap_node.py
+│       └── formatter_node.py
+│
+├── modules/                    # Application modules
 │   ├── ats.py
 │   ├── candidate.py
 │   ├── github.py
@@ -97,9 +143,10 @@ Rag_bot/
 │   ├── jd_analysis.py
 │   ├── report.py
 │   ├── resume.py
-│   ├── verification.py
+│   └── verification.py
 │
-└── README.md
+├── assets/
+└── .gitignore/
 ```
 
 ---
@@ -202,6 +249,7 @@ This project demonstrates:
 * Multi-agent orchestration
 * Multi-model AI integration
 * Real-world hiring intelligence application
+* LangGraph StateGraph orchestration with conditional routing
 
 ---
 
